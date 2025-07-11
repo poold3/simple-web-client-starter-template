@@ -3,15 +3,14 @@
     "module": "esnext",
     "target": "esnext",
     "moduleResolution": "bundler",
-    "strict": true,
     "noImplicitAny": true,
-    "removeComments": true,
+    "removeComments": false,
     "preserveConstEnums": true,
     "allowSyntheticDefaultImports": true,
-    "noEmitOnError": true,
-    "resolveJsonModule": true,
+    "strict": true,
+    "outDir": "dist",
     "paths": {
-      "/simple-web-client/*": ["./.simple-web-client/lib/*"]
+      "/__src__/*": ["./../app/*"]
     }
   },
   "include": ["app"],

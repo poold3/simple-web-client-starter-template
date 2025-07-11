@@ -1,17 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const ws_1 = require("ws");
-const node_http_1 = __importDefault(require("node:http"));
-const host = "0.0.0.0";
-const port = 8080;
-const wsPort = 8081;
+import { WebSocketServer } from "ws";
+import http from "node:http";
+import { env } from "./env.js";
 let clients = [];
-node_http_1.default
+http
     .createServer((req, res) => {
-    if (req.method === "POST" && req.url === "/reload") {
+    if (req.method === "POST" && req.url === env.reloadPath) {
         sendReloadMessages();
     }
     res.writeHead(200, {
@@ -21,14 +14,14 @@ node_http_1.default
     });
     res.end();
 })
-    .listen(port, host, () => {
-    console.log(`Reload server listening at http://${host}:${port}`);
+    .listen(env.serverPort, env.host, () => {
+    console.log(`Reload server listening at http://${env.host}:${env.serverPort}`);
 });
-const wss = new ws_1.WebSocketServer({
-    host: host,
-    port: wsPort
+const wss = new WebSocketServer({
+    host: env.host,
+    port: env.webSocketPort
 }, () => {
-    console.log(`Reload websocket server listening at http://${host}:${wsPort}`);
+    console.log(`Reload websocket server listening at http://${env.host}:${env.webSocketPort}`);
 });
 wss.on("connection", (ws) => {
     ws.on("close", () => {
